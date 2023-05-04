@@ -140,9 +140,31 @@ ggplot()+
 
 
 
-#Task 5 (optional): no time to solve it (Check later solutions!)
+#Task 5 (optional): no time to solve it (Solve and Check later solutions!)
+
 #Task 6: Add your movement data to your repository
+#Done
+
 #Task 7: Explore your movement data
+#Import data
+posmo <- read_delim("posmo_2023-04-01T00_00_00+02_00-2023-05-04T23_59_59+02_00.csv", ",")
 
+posmo <- st_as_sf(posmo, coords = c("lon_x", "lat_y"), crs = 2056, remove = FALSE)
 
+#plot map
+
+library("ggplot2")
+
+ggplot(posmo, aes(lon_x, lat_y, colour = transport_mode)) +
+  geom_point() +
+  theme(legend.position = "none")
+#wrong coordinate system in map. Why?
+
+#interactive map doesnt works, "Error: posmo consists of spatial points, so it cannot accept tm_fill/tm_borders/tm_polygons."
+library("tmap")
+tmap_mode("view")
+
+tm_shape(posmo) +
+  tm_polygons(col = "transport_mode", alpha = 0.4, border.col = "red") +
+  tm_legend(bg.color = "white")
 
